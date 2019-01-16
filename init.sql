@@ -4,5 +4,5 @@ GRANT ALL PRIVILEGES ON bugbountylink.* To 'bugbountylink'@'localhost';
 CREATE TABLE links (
   id varchar(20) NOT NULL,
   dest varchar(1024) NOT NULL,
-  UNIQUE (id)
+  PRIMARY KEY (id)
 );
