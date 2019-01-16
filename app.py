@@ -13,7 +13,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/create', methods=["POST"])
+@app.route('/create', methods=["GET", "POST"])
 def genLink():
     if(request.method == 'POST'):
         linkId = config.generateLink()
