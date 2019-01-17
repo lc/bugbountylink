@@ -4,7 +4,6 @@ import string
 
 stringList = string.ascii_letters + string.digits
 
-
 class db:
     host = "127.0.0.1"
     user = "bugbountylink"
@@ -32,10 +31,9 @@ def insertLink(domain):
                 success = True
         except pymysql.IntegrityError:
             count += 1
-    if(success is False):
-        return "Sorry we encountered an error!"
-    else:
-        return "Shortened link: <a href='/"+generatedID+"'>http://bugbounty.link/"+generatedID+"</a>"
+
+    return generatedID if success else None
+
 
 
 def rick():
