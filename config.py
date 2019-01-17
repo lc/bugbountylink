@@ -8,7 +8,7 @@ stringList = string.ascii_letters + string.digits
 class db:
     host = "127.0.0.1"
     user = "bugbountylink"
-    password = "<PASSWORD>"
+    password = "bugbountylink123!"
     db = "bugbountylink"
 
 
@@ -18,26 +18,30 @@ def dbconnect():
     return connection
 
 
-def generateLink():
-    new = True
-
-    while(new):
-        generatedID = ''.join(random.sample(stringList, 6))
-        if(canCreate(generatedID) == True):
-            new = False
-    return(generatedID)
-
-
-def canCreate(id):
-    # check if the id exists yet or not
-    # preventing collisions in db
+def insertLink(domain):
+    count = 0
+    success = False
     conn = dbconnect()
-    sql = "SELECT count(*) FROM links WHERE id = %s"
+    while(success is False and count < 3):
+        try:
+            generatedID = ''.join(random.sample(stringList, 12))
+            add = "INSERT INTO links (id,dest) VALUES (%s,%s);"
+            with conn.cursor() as cursor:
+                cursor.execute(add, (generatedID, domain))
+                conn.commit()
+                success = True
+        except pymysql.IntegrityError:
+            count += 1
+    if(success is False):
+        return "Sorry we encountered an error!"
+    else:
+        return "Shortened link: <a href='/"+generatedID+"'>http://bugbounty.link/"+generatedID+"</a>"
+
+
+def rick():
+    conn = dbconnect()
+    add = "INSERT INTO links (id,dest) VALUES ('admin','https://www.youtube.com/watch?v=dQw4w9WgXcQ');"
     with conn.cursor() as cursor:
-        cursor.execute(sql, (id,))
-        res = cursor.fetchone()
-        conn.close()
-        if res['count(*)'] > 0:
-            return(False)
-        else:
-            return(True)
+        cursor.execute(add)
+        conn.commit()
+        print("rick roll the hackerz")

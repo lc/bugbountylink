@@ -1,4 +1,4 @@
-CREATE USER 'bugbountylink'@'localhost' IDENTIFIED BY 'password';
+CREATE USER 'bugbountylink'@'localhost' IDENTIFIED BY 'bugbountylink123!';
 CREATE DATABASE bugbountylink;
 GRANT ALL PRIVILEGES ON bugbountylink.* To 'bugbountylink'@'localhost';
 CREATE TABLE links (

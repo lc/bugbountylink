@@ -5,8 +5,6 @@ import config
 
 app = Flask(__name__)
 
-config.generateLink()
-
 
 @app.route('/')
 def index():
@@ -16,14 +14,9 @@ def index():
 @app.route('/create', methods=["GET", "POST"])
 def genLink():
     if(request.method == 'POST'):
-        linkId = config.generateLink()
         domain = request.form['link']
-        conn = config.dbconnect()
-        add = "INSERT INTO links (id,dest) VALUES (%s,%s);"
-        with conn.cursor() as cursor:
-            cursor.execute(add, (linkId, domain))
-            conn.commit()
-        return render_template("default.html", html="<p>Shortened link: <a href='/"+linkId+"'>http://bugbounty.link/"+linkId+"</a></h2 >")
+        response = config.insertLink(domain)
+        return render_template("default.html", html="<p>"+response+"</p>")
     if(request.method == 'GET'):
         return redirect("/", code=302)
 
